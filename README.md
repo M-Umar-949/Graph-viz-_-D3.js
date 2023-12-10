@@ -22,6 +22,6 @@ IF TREE
 IF General graph (with cycles)
   THEN displays a chord diagram and grid layout.
 
-# FLASK api is used to connect analysis and visualization implementaion
+### FLASK api is used to connect analysis and visualization implementaion
 
 - All the layouts are implemented in a separate javascript files.
