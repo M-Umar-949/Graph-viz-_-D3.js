@@ -1,0 +1,187 @@
+
+body {
+    transition: background-color 0.9s;
+    background-color: #222; /* Dark mode background color */
+    color: #fff; /* Dark mode text color */
+    margin: 0;
+    padding: 0px;
+    /* padding-top: 50px; */
+    font-family: Arial, sans-serif;
+    display: grid;
+    margin: 0;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Move content to the top right */
+    margin-right: 40px;
+    margin-top: 40px ;
+}
+
+.toggle-label {
+    margin-right: 10px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc; /* Slider background color in light mode */
+    transition: 0.4s;
+    border-radius: 40px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #fff; /* Slider button color in light mode */
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #2196F3; /* Slider background color in dark mode */
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* input[type="file"]::before {
+    content: 'Upload matrix';
+ 
+      
+} */
+
+
+
+.fixed-header {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #00cc44;
+    border-radius: 8px;
+    text-align: left;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    
+}
+
+
+.card {
+    position: relative;
+    top: 10px;
+    border: 2px solid #00cc44;
+    /* background: linear-gradient(to bottom, #00cc44, #006633); */
+    background: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    width: 40%;
+}
+.file-input {
+    display: none;
+  }
+  
+/* CSS */
+.button{
+    background-color: #c2fbd7;
+    border-radius: 100px;
+    box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset, rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px, rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px, rgba(44, 187, 99, 0.15) 0 16px 32px;
+    color: green;
+    cursor: pointer;
+    display: inline-block;
+    font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 250ms;
+    border: 0;
+    font-size: 16px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 150px;
+}
+
+.button:hover,
+.button:active {
+    background-color: #ccc;
+    transform: scale(1.1);
+}
+
+/* To style the file input text */
+.file-label span {
+    color: green; /* You can adjust the color as needed */
+}
+
+.centered-paragraph {
+    text-align: justify; /* Center-align the text */
+    margin: 0 28%; /* Leave 30% space on both sides */
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%; /* Adjust the max-width as needed */
+    max-height: 100%;
+  }
+  .id-card {
+    background-color: #c2fbd7;
+
+    box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset, rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px, rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px, rgba(44, 187, 99, 0.15) 0 16px 32px;
+    color: green;    white-space: nowrap;
+    min-width: 150px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 20px auto; /* Adjust the margin as needed */
+}
+/* Add a border box to a specific paragraph with a class */
+.custom-border-paragraph {
+    border: 2px solid #39ff14; /* Neon green border color */
+    padding: 10px; /* Optional: Add padding for better spacing */
+    border-radius: 8px;
+
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

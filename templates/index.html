@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3 Assignment</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    {% if graph_type == "Tree" %}
+    <!-- Include tree-specific JavaScript file -->
+    <script>
+        const fileName_T = "{{ filename }}";  // Pass the file name to the JavaScript file
+    </script>
+    <script src="{{ url_for('static', filename='tree.js') }}"></script>
+    <script src="{{ url_for('static', filename='icicle.js') }}"></script>
+
+    {% elif graph_type == "DAG" %}
+        <!-- Include DAG-specific JavaScript file -->
+        <script>
+            const fileName_D = "{{ filename }}";  // Pass the file name to the JavaScript file
+        </script>
+        <script src="{{ url_for('static', filename='Sugyama_layers.js') }}"></script>
+        <script src="{{ url_for('static', filename='directed_sugyama.js') }}"></script>
+        <script src="{{ url_for('static', filename='radial_sugyama.js') }}"></script>
+
+
+    {% else %}
+        <!-- Include general graph JavaScript file -->
+        <script>
+            const fileName = "{{ filename }}";  // Pass the file name to the JavaScript file
+        </script>
+        <script src="{{ url_for('static', filename='chord.js') }}"></script>
+        <script src="{{ url_for('static', filename='grid.js') }}"></script>
+
+    {% endif %}
+
+    <style>
+    
+    </style>
+</head>
+<body>
+    <header class="fixed-header">
+        <h1><b><I>Graph VIZ</I></b></h1>
+        <h4>The graph wizard</h4>
+        <div class="toggle-container">
+            <label class="toggle-label">Dark Mode:</label>
+            <label class="toggle-switch">
+                <input type="checkbox" id="darkModeToggle" checked>
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+    </header>
+
+    <img src="/static/OIG.png" class="center" >
+
+    <div class="centered-paragraph custom-border-paragraph">
+        
+
+        <p >
+            Explore the fascinating world of graph analysis with Graph Viz, an advanced visualization application tailored for insightful data exploration. This intuitive tool empowers users to gain a deeper understanding of their datasets by providing a range of sophisticated visualizations based on uploaded CSV matrices.
+        </p>
+    
+        <p>
+            For datasets structured as Directed Acyclic Graphs (DAG), Graph Viz introduces Radial Sugiyama and Directed Sugiyama layouts. These layouts offer an immersive experience, enabling users to unravel complex relationships within their data through aesthetically pleasing and logically organized visualizations.
+        </p>
+    
+        <p>
+            When dealing with hierarchical structures like Trees, Graph Viz offers Icicle and Reingold-Tilford Tree layouts. Icicle charts provide a compact yet comprehensive overview, while Reingold-Tilford Trees showcase hierarchical relationships with elegance and clarity, making the exploration of tree-like structures both efficient and visually engaging.
+        </p>
+    
+        <p>
+            Graph Viz extends its capabilities to handle General graphs with Chord Diagrams and Grid Layouts. Chord Diagrams elegantly reveal relationships between nodes, and Grid Layouts provide a structured and ordered representation of complex interconnected data, ensuring that no detail goes unnoticed.
+        </p>
+    
+        <p>
+            Take advantage of Graph Viz's user-friendly interface to upload your CSV matrix and experience the power of visual storytelling. Uncover hidden patterns, discover meaningful insights, and transform your data into a visual masterpiece with Graph Viz!
+        </p>
+
+      </div>
+    <h1 style="text-align: center;">
+        Visualize your graph here
+    </h1>
+    <div class="card">
+        <div class="form-container">
+            <form method="post" enctype="multipart/form-data" > 
+                <label for="file" class="button">
+                    Upload Matrix
+                  </label>
+
+                <input type="file" name="file" id="file" accept=".csv" required class="file-input"><br><br>
+                <button type="submit" class="button" style="width: 190px;" onclick="checkFileSelection()" >Analyze Graph</button>
+
+                <br><br>
+                {% if graph_type %}
+                <p class="id-card" ><i><strong>Graph type: {{ graph_type }}</strong></i></p>
+                {% endif %}
+
+                {% if error_message %}
+                <p style="background-color: rgb(199, 95, 91); white-space: nowrap; min-width: 150px; text-align: center; border-radius: 20px; padding: 10px;">
+                    {{ error_message }}
+                </p>
+                                    <script>
+                        alert("This graph file is not connected, please upload a connected file");
+                    </script>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+
+
+   
+
+   
+    <!-- <div id="show" style="display: none;"> -->
+        
+
+        {% if graph_type == "Tree" %}
+
+            <h4 class="centered-paragraph custom-border-paragraph">
+                Following are the visualizations that are suitable for your selected adjacency matrix.
+            </h4>
+
+            <h1 style="text-align: center;">
+                Icicle layout
+            </h1>
+
+            <p class="centered-paragraph custom-border-paragraph">
+                The icicle layout is a compelling method for visually representing hierarchical tree structures in a space-efficient and easily interpretable manner. In this layout, nodes are arranged in horizontal bands, each band corresponding to a specific level of the tree. Nodes within a band extend horizontally, forming contiguous blocks that represent individual subtrees or branches. The width of each block is proportional to the number of nodes it encapsulates, providing an immediate visual cue to the relative size of different branches. The icicle layout is particularly effective for conveying the hierarchical relationships within trees, allowing viewers to discern parent-child connections and overall tree structure at a glance. This method is especially beneficial for visualizing large hierarchical 
+                datasets, where traditional tree diagrams might become unwieldy. The icicle layout's compact and intuitive design makes it a valuable tool in information visualization, aiding in the comprehension of complex hierarchical relationships.
+            </p>
+        
+            <div id="icicle-layout" style="text-align: center;margin-top: 20px;" ></div>
+
+            <h1 style="text-align: center;">
+                Reingold tillford tree
+            </h1>
+
+            <p class="centered-paragraph custom-border-paragraph">
+                The Reingold-Tilford Tree layout is a visually intuitive method for representing hierarchical tree structures in a way that facilitates clear understanding and efficient interpretation. In this layout, nodes are arranged in levels, forming a tree structure with a horizontal orientation. Nodes within the same level are aligned along a single horizontal line, and edges connect parent nodes to their respective child nodes in a downward direction. The Reingold-Tilford layout optimizes the placement of nodes to minimize edge crossings and ensure a clean, organized appearance. By adhering to a simple yet effective algorithm, this layout method offers a balanced distribution of nodes across levels, making it easy for viewers to follow the hierarchical relationships within the tree. The Reingold-Tilford Tree layout is widely utilized in visualizations where hierarchical structures need to be 
+                conveyed, providing a visually pleasing and comprehensible representation of complex tree relationships.
+            </p>
+
+            <div id="tree-layout" style="text-align: center;margin-right: 20px;"></div>
+
+        {% elif graph_type == "DAG" %}
+            <h4 class="centered-paragraph custom-border-paragraph">
+                Following are the visualizations that are suitable for your selected adjacency matrix.
+            </h4>
+
+
+            <h1 style="text-align: center;">
+                Radial Sugiyama layout
+            </h1>
+
+            <p class="centered-paragraph custom-border-paragraph">
+                Radial Sugiyama is a sophisticated graph layout algorithm within the Sugiyama framework, designed to create visually appealing and informative visualizations of hierarchical structures. In this layout scheme, nodes are organized in concentric circles or rings, representing different hierarchical levels within the graph. The edges between nodes are carefully routed to minimize crossings and maintain a clear hierarchical structure. This circular arrangement is particularly effective for visualizing tree-like graphs or those with evident hierarchical relationships. Radial Sugiyama not only reduces the complexity of the graph but also enhances the viewer's ability to discern parent-child relationships and grasp the overall hierarchy. By employing 
+                this algorithm, the resulting visualization offers an intuitive and clear representation of complex hierarchical structures, making it a valuable tool in graph visualization and analysis.
+            </p>
+
+            <div id="radial-layout" style="text-align: center;margin-top: 20px;"></div>
+
+            <h1 style="text-align: center;">
+                Directed Sugiyama layout
+            </h1>
+
+            <p class="centered-paragraph custom-border-paragraph">
+                The Directed Sugiyama algorithm, nestled within the Sugiyama framework, offers an efficient and intuitive approach to the layout of directed acyclic graphs (DAGs). In this method, nodes are systematically arranged into layers, establishing a hierarchical structure that reflects the directional flow of the graph. Within each layer, nodes are meticulously ordered to minimize edge crossings, promoting a visually organized representation. The algorithm excels in capturing the essence of acyclic structures, where nodes possess a clear and unidirectional relationship. By intelligently routing edges between layers, the Simple Directed Sugiyama layout facilitates a straightforward visualization of processes, dependencies, or information flow, striking a balance between 
+                simplicity and effectiveness in conveying the underlying structure of directed acyclic graphs.
+            </p>
+
+            <div id="directed-layout" style="text-align: center;margin-top: 20px;"></div>
+
+
+
+        {% elif graph_type == "General" %}
+
+            <h4 class="centered-paragraph custom-border-paragraph" >
+                Following are the visualizations that are suitable for your selected adjacency matrix.
+            </h4>
+
+            <h1 style="text-align: center;">
+                Chord Diagram
+                </h1>
+                <p class="centered-paragraph custom-border-paragraph">
+                    A chord diagram in terms of graph visualization is a powerful representation that illustrates relationships and connections between entities. It visualizes the connections in a network by displaying arcs or chords between nodes arranged in a circular or radial layout. In this context, nodes represent entities, and chords indicate the connections or interactions between them.
+
+                    Each node in a chord diagram is typically positioned around the circumference of a circle, and chords connect pairs of nodes, forming arcs that span between them. The thickness of a chord can convey the strength or frequency of the relationship between connected nodes.
+                    
+                    Chord diagrams are particularly effective in depicting complex relationships within a network or graph, where entities may have multiple connections. The circular layout provides a clear and intuitive way to show how different entities are interlinked. The positioning of nodes around the circle and the curvature of chords help convey the overall structure and patterns of connectivity.
+                    
+                    In summary, a chord diagram in graph visualization is a specialized and visually compelling way to represent complex networks, emphasizing the relationships and connections between entities in a clear and insightful manner.            </p>
+
+            <div id="chord-layout" style="text-align: center;margin-top: 20px;"></div>
+
+
+            <h1 style="text-align: center;">
+                Grid layout
+                </h1>
+
+            <p class="centered-paragraph custom-border-paragraph">
+                In the realm of graph visualization, a grid layout serves as a structured framework for organizing nodes and edges in a systematic manner. The layout divides the visualization space into a grid of rows and columns, providing a well-defined structure for placing graph elements. Each cell in the grid accommodates a node or represents a section of the graph, contributing to a visually organized representation. This method facilitates the clear presentation of complex relationships within a graph, making it easier for viewers to interpret connectivity and hierarchies. Grid layouts are particularly valuable in network visualizations, enabling the effective arrangement of nodes and edges while maintaining a consistent and aesthetically pleasing structure. The use of a grid ensures a coherent and responsive graph visualization, enhancing the accessibility and understanding of intricate data patterns.
+            </p>
+
+            <div id="grid-layout" style="text-align: center;margin-top: 20px;"></div>
+
+
+
+        {% endif %}
+
+        <footer class="footer custom-border-paragraph">
+            <p class="copyright">&copy; 2023 Loading.tech. All rights reserved.</p>
+        </footer>
+        
+   
+
+    <script>
+       
+
+        function checkFileSelection() {
+                var fileInput = document.getElementById('file');
+                if (!fileInput.files.length) {
+                    alert("Please select a file before analyzing the graph.");
+                    return false;
+                }
+
+
+                    return true;
+            }
+        function showVisualizations(event) {
+            event.preventDefault();
+            var visualizationsDiv = document.getElementById('show');
+
+            // Example: Set the display property to 'block' to make the div visible
+            if (visualizationsDiv) {
+                visualizationsDiv.style.display = 'block';
+            }
+
+            // Add your logic to dynamically load or update the visualizations here
+            return false; // Prevent default form submission
+        }
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Set initial dark mode based on user preference or default to dark mode
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const storedDarkMode = localStorage.getItem('darkMode');
+
+        if (storedDarkMode !== null) {
+            darkModeToggle.checked = JSON.parse(storedDarkMode);
+            setDarkMode(darkModeToggle.checked);
+        } else {
+            darkModeToggle.checked = prefersDarkMode;
+            setDarkMode(prefersDarkMode);
+        }
+
+        // Toggle dark mode on checkbox change
+        darkModeToggle.addEventListener('change', () => {
+            setDarkMode(darkModeToggle.checked);
+        });
+
+        // Function to toggle dark mode
+        function setDarkMode(enabled) {
+            body.style.backgroundColor = enabled ? '#222' : '#fff';
+            body.style.color = enabled ? '#fff' : '#222';
+            localStorage.setItem('darkMode', enabled);
+        }
+    </script>
+</body>
+</html>

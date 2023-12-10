@@ -1,0 +1,5 @@
+, NodeA, NodeB, NodeC, NodeD
+NodeA, 0, 1, 0, 0
+NodeB, 1, 0, 0, 0
+NodeC, 0, 0, 0, 1
+NodeD, 0, 0, 1, 0
